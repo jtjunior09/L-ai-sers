@@ -61,7 +61,7 @@ def run_game():
         
         # Update Player
         player.update(deltaTime)
-
+        player.check_player_hits(lasers.lasers)
         # Update Laser
         lasers.update(deltaTime)
 
