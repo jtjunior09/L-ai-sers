@@ -49,6 +49,7 @@ class Player(pygame.sprite.Sprite):
         self.screen.blit(self.image, self.rect)
 
     def update(self, deltaTime):
+        """ Update every game loop """
         if self.state == PLAYER_ALIVE:
             self.time_lived += deltaTime
             self.handle_keys()

@@ -1,5 +1,7 @@
 import pygame
+
 from Definitions import *
+from Laser import Laser
 from Player import Player
 
 def render_label(title, info, font, x, y, screen):
@@ -39,6 +41,9 @@ def run_game():
     # Create Player
     player = Player(screen)
 
+    # Create Laser
+    laser = Laser(0, 300, screen)
+
     # Game Loop
     isRunning = True
     while isRunning:
@@ -53,7 +58,11 @@ def run_game():
             if event.type == pygame.QUIT:
                 isRunning = False
         
+        # Update Player
         player.update(deltaTime)
+
+        # Update Laser
+        laser.update(deltaTime)
 
         # Update labels
         update_text_labels(deltaTime, gameTime, labelFont, screen)
