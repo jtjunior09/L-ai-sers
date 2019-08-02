@@ -16,3 +16,13 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+
+# Player vars
+PLAYER_FILE = "assets/char_default.png"
+PLAYER_WIDTH = 20
+PLAYER_HEIGHT = 50
+PLAYER_SPEED = 3
+PLAYER_START_X = 750
+PLAYER_START_Y = 250
+PLAYER_ALIVE = 1
+PLAYER_DEAD = 0

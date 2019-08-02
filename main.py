@@ -1,5 +1,6 @@
 import pygame
 from Definitions import *
+from Player import Player
 
 def render_label(title, info, font, x, y, screen):
     """ Renders [title]: [info] to game screen. """
@@ -35,6 +36,9 @@ def run_game():
     deltaTime = 0
     gameTime = 0
 
+    # Create Player
+    player = Player(screen)
+
     # Game Loop
     isRunning = True
     while isRunning:
@@ -49,6 +53,7 @@ def run_game():
             if event.type == pygame.QUIT:
                 isRunning = False
         
+        player.update(deltaTime)
 
         # Update labels
         update_text_labels(deltaTime, gameTime, labelFont, screen)
