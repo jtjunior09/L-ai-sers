@@ -31,10 +31,45 @@ class Laser():
         self.screen.blit(self.image, self.rect)
 
     def check_laser(self):
+        """ Check if laser is off screen """
         if self.rect.left > DISPLAY_W:
             self.finished = True
     
     def update(self, deltaTime):
+        """ Update every game loop """
         self.move_laser(LASER_SPEED * deltaTime, 0)
         self.check_laser()
         self.draw()
+
+class LaserGroup():
+    def __init__(self, screen):
+        self.screen = screen
+        self.lasers = []
+
+    def add_new_lasers(self, x, y):
+        """ Add new Laser(s) to the game """
+        new_laser = Laser(x, y, self.screen)
+        self.lasers.append(new_laser)
+
+    def create_initial_lasers(self):
+        self.lasers = []
+        self.add_new_lasers(DISPLAY_W/2, DISPLAY_H -20)
+        self.add_new_lasers(DISPLAY_W/2, 20)
+        self.add_new_lasers(DISPLAY_W/2, DISPLAY_H/random.randint(1,5))
+        self.add_new_lasers(DISPLAY_W/4, DISPLAY_H/random.randint(1,5))
+        self.add_new_lasers(DISPLAY_W/4, DISPLAY_H/random.randint(1,5))
+        self.add_new_lasers(DISPLAY_W/4, DISPLAY_H/random.randint(1,5))
+
+    def update(self, deltaTime):
+        """ Update every game loop """
+        
+        earlyLaserFound = False
+
+        # Update each laser, find out if an early laser exists (one that is still passing left window edge)
+        for laser in self.lasers:
+            laser.update(deltaTime)
+            if laser.rect.left < 0:
+                earlyLaserFound = True
+        
+        if not earlyLaserFound:
+            self.add_new_lasers(-LASER_WIDTH, random.randint(0, DISPLAY_H))
