@@ -30,19 +30,19 @@ class Player(pygame.sprite.Sprite):
         if key[pygame.K_DOWN] or key[pygame.K_s]:
             self.rect.y += PLAYER_SPEED
             if self.rect.y > DISPLAY_H - PLAYER_HEIGHT:
-                self.rect.y = 0
+                self.rect.top = 0
         if key[pygame.K_UP] or key[pygame.K_w]:
             self.rect.y -= PLAYER_SPEED
             if self.rect.y < 0:
-                self.rect.y = DISPLAY_H - PLAYER_HEIGHT
+                self.rect.bottom = DISPLAY_H
         if key[pygame.K_RIGHT] or key[pygame.K_d]:
             self.rect.x += (2 * PLAYER_SPEED)
             if self.rect.x > DISPLAY_W - PLAYER_WIDTH:
-                self.rect.x = 0
+                self.rect.left = 0
         if key[pygame.K_LEFT] or key[pygame.K_a]:
             self.rect.x -= (2 * PLAYER_SPEED)
             if self.rect.x < 0:
-                self.rect.x = DISPLAY_W
+                self.rect.right = DISPLAY_W
 
     def draw(self):
         """ Draw Player on screen """
