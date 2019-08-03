@@ -2,7 +2,8 @@ import pygame
 
 from Definitions import *
 from Laser import LaserGroup
-from Player import Player
+from Player import PlayerGroup
+
 
 def render_label(title, info, font, x, y, screen):
     """ Renders [title]: [info] to game screen. """
@@ -10,13 +11,16 @@ def render_label(title, info, font, x, y, screen):
     screen.blit(label, (x, y))
     return y # to keep track of where to place next label
 
-def update_text_labels(deltaTime, gameTime, font, screen):
+def update_text_labels(deltaTime, gameTime, generationCount, generationTime, numAlive, font, screen):
     """ Update game text labels, pass-through function to render_label for each. """
     y = 5
     x = 5
     y_gap = 20
     y = render_label('FPS', round(1000/deltaTime, 2), font, x, y, screen)
-    y = render_label('Game Time', round(gameTime/1000, 2), font, x, y + y_gap, screen)
+    y = render_label('Total Time', round(gameTime/1000, 2), font, x, y + y_gap, screen)
+    y = render_label('Generation', generationCount, font, x, y + y_gap, screen)
+    y = render_label('Gen Time', round(generationTime/1000, 2), font, x, y + y_gap, screen)
+    y = render_label('# Alive', numAlive, font, x, y + y_gap, screen)
 
 def run_game():
     """ Game initialization and main event loop. """
@@ -36,10 +40,12 @@ def run_game():
     # Setup clock/counters
     gameClock = pygame.time.Clock()
     deltaTime = 0
-    gameTime = 0
+    totalTime = 0
+    generationTime = 0
+    generationCount = 1
 
     # Create Player
-    player = Player(screen)
+    players = PlayerGroup(screen)
 
     # Create Laser
     lasers = LaserGroup(screen)
@@ -50,7 +56,8 @@ def run_game():
     while isRunning:
         # FPS handling
         deltaTime = gameClock.tick(FPS)
-        gameTime += deltaTime
+        totalTime += deltaTime
+        generationTime += deltaTime
 
         # Redraw background to remove previous game state from screen
         screen.blit(backgroundImg, (0,0))
@@ -59,14 +66,20 @@ def run_game():
             if event.type == pygame.QUIT:
                 isRunning = False
         
-        # Update Player
-        player.update(deltaTime)
-        player.check_player_hits(lasers.lasers)
-        # Update Laser
+        # Update Lasers
         lasers.update(deltaTime)
+        
+        # Check alive count and evolve if necessary
+        numAlive = players.update(deltaTime, lasers.lasers)
+        if numAlive == 0:
+            lasers.lasers.clear()
+            lasers.create_initial_lasers()
+            generationTime = 0
+            players.evolve_pop()
+            generationCount += 1
 
         # Update labels
-        update_text_labels(deltaTime, gameTime, labelFont, screen)
+        update_text_labels(deltaTime, totalTime, generationCount, generationTime, numAlive, labelFont, screen)
 
         pygame.display.update()
 

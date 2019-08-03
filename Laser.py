@@ -3,6 +3,7 @@ import random
 
 from Definitions import *
 
+
 class Laser():
     def __init__(self, x, y, screen):
         """ Laser constructor """
