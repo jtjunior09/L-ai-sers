@@ -34,7 +34,7 @@ class Laser():
     def check_laser(self):
         """ Check if laser is off screen """
         if self.rect.left > DISPLAY_W:
-            self.finished = True
+            self.remove = True
     
     def update(self, deltaTime):
         """ Update every game loop """
@@ -72,5 +72,7 @@ class LaserGroup():
             if laser.rect.left < 0:
                 earlyLaserFound = True
         
+        self.lasers = [las for las in self.lasers if las.remove == False]
+
         if not earlyLaserFound:
             self.add_new_lasers(-LASER_WIDTH, random.randint(0, DISPLAY_H))
