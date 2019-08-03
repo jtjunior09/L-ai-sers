@@ -1,6 +1,7 @@
 # L-ai-sers
 
 August 2, 2019
+
 Simple PyGame with an evolving Neural Network
 
 ## Dependencies
@@ -17,3 +18,5 @@ pip install pygame numpy scipy
 ```
 python main.py
 ```
+
+Edit Neural Network / Evolution settings via the variables in `Definitions.py`
