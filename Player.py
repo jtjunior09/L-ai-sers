@@ -50,22 +50,23 @@ class Player(pygame.sprite.Sprite):
 
     def do_action(self, action):
         """ Allows random action (left/right/up/down) to be taken """
-        if action == 1:
+        if action == 1: # down
             self.rect.y += PLAYER_SPEED
             if self.rect.y > DISPLAY_H - PLAYER_HEIGHT:
                 self.rect.top = 0
-        if action == 2:
+        if action == 2: # up
             self.rect.y -= PLAYER_SPEED
             if self.rect.y < 0:
                 self.rect.bottom = DISPLAY_H
-        if action == 3:
+        if action == 3: #right
             self.rect.x += (2 * PLAYER_SPEED)
-            if self.rect.x > DISPLAY_W - PLAYER_WIDTH:
-                self.rect.left = 0
-        if action == 4:
-            self.rect.x -= (2 * PLAYER_SPEED)
-            if self.rect.x < 0:
+            if self.rect.right > DISPLAY_W:
                 self.rect.right = DISPLAY_W
+        if action == 4: #left
+            self.rect.x -= (2 * PLAYER_SPEED)
+            if self.rect.left < 0:
+                self.rect.right = DISPLAY_W
+                self.fitness += 500
 
     def check_player_hits(self, lasers):
         """ See if player got hit by laser- dead player if so """
