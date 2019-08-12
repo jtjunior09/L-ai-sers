@@ -96,7 +96,7 @@ class Player(pygame.sprite.Sprite):
         # Get real distances for each var
         for las in lasers:
             if (las.rect.top >= playerYmin) and (las.rect.bottom <= playerYmax): # laser on same y-axis
-                if self.rect.centerx - las.rect.centerx: # laser to left
+                if self.rect.centerx - las.rect.centerx >= 0: # laser to left
                     dist = abs(self.rect.left - las.rect.right)
                     if dist < closestLeft:
                         closestLeft = dist

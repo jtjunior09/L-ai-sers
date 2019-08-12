@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from Definitions import *
 from Laser import LaserGroup
@@ -21,6 +22,27 @@ def update_text_labels(deltaTime, gameTime, generationCount, generationTime, num
     y = render_label('Generation', generationCount, font, x, y + y_gap, screen)
     y = render_label('Gen Time', round(generationTime/1000, 2), font, x, y + y_gap, screen)
     y = render_label('# Alive', numAlive, font, x, y + y_gap, screen)
+
+def create_laser_list():
+    laserList = [ [0] * 2 for i in range(106) ]
+    x = 0
+    for i in range(100):
+        laserList[i][0] = x
+        laserList[i][1] = random.randint(0, DISPLAY_H)
+        x -= LASER_WIDTH
+    laserList[101][0] = DISPLAY_W/2
+    laserList[101][1] = DISPLAY_H -20
+    
+    laserList[102][0] = DISPLAY_W/2
+    laserList[102][1] = 20
+    laserList[103][0] = DISPLAY_W/2
+    laserList[103][1] = DISPLAY_H/random.randint(1,5)
+    laserList[104][0] = DISPLAY_W/4
+    laserList[104][1] = DISPLAY_H/random.randint(1,5)
+    laserList[105][0] = DISPLAY_W/4
+    laserList[105][1] = DISPLAY_H/random.randint(1,5)
+
+    return laserList
 
 def run_game():
     """ Game initialization and main event loop. """
@@ -49,7 +71,8 @@ def run_game():
 
     # Create Laser
     lasers = LaserGroup(screen)
-    lasers.create_initial_lasers()
+    laserList = create_laser_list()
+    lasers.create_initial_lasers(laserList)
 
     # Game Loop
     isRunning = True
@@ -73,7 +96,7 @@ def run_game():
         numAlive = players.update(deltaTime, lasers.lasers)
         if numAlive == 0:
             lasers.lasers.clear()
-            lasers.create_initial_lasers()
+            lasers.create_initial_lasers(laserList)
             generationTime = 0
             players.evolve_pop()
             generationCount += 1

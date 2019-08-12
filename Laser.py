@@ -44,6 +44,7 @@ class Laser():
 
 class LaserGroup():
     def __init__(self, screen):
+        """ LaserGroup constructor """
         self.screen = screen
         self.lasers = []
 
@@ -52,27 +53,28 @@ class LaserGroup():
         new_laser = Laser(x, y, self.screen)
         self.lasers.append(new_laser)
 
-    def create_initial_lasers(self):
+    def create_initial_lasers(self, lasers):
         self.lasers = []
-        self.add_new_lasers(DISPLAY_W/2, DISPLAY_H -20)
+        for laser in lasers:
+            self.add_new_lasers(laser[0], laser[1])
+        """self.add_new_lasers(DISPLAY_W/2, DISPLAY_H -20)
         self.add_new_lasers(DISPLAY_W/2, 20)
         self.add_new_lasers(DISPLAY_W/2, DISPLAY_H/random.randint(1,5))
         self.add_new_lasers(DISPLAY_W/4, DISPLAY_H/random.randint(1,5))
         self.add_new_lasers(DISPLAY_W/4, DISPLAY_H/random.randint(1,5))
-        self.add_new_lasers(DISPLAY_W/4, DISPLAY_H/random.randint(1,5))
+        self.add_new_lasers(DISPLAY_W/4, DISPLAY_H/random.randint(1,5))"""
 
     def update(self, deltaTime):
-        """ Update every game loop """
-        
-        earlyLaserFound = False
+        """ Update every game loop """        
+        #earlyLaserFound = False
 
         # Update each laser, find out if an early laser exists (one that is still passing left window edge)
         for laser in self.lasers:
             laser.update(deltaTime)
-            if laser.rect.left < 0:
-                earlyLaserFound = True
+            #if laser.rect.left < 0:
+                #earlyLaserFound = True
         
-        self.lasers = [las for las in self.lasers if las.remove == False]
+        #self.lasers = [las for las in self.lasers if las.remove == False]
 
-        if not earlyLaserFound:
-            self.add_new_lasers(-LASER_WIDTH, random.randint(0, DISPLAY_H))
+        #if not earlyLaserFound:
+           # self.add_new_lasers(-LASER_WIDTH, random.randint(0, DISPLAY_H))
